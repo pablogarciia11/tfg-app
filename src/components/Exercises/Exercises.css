@@ -1,0 +1,41 @@
+.exercises {
+  display: flex;
+  justify-content: center;
+}
+
+table, th, td {
+  border-collapse: collapse;
+  border: 1px solid #c5c2c2;
+}
+
+th {
+  background-color: #dcdada;
+  padding: 7px;
+}
+
+td {
+  padding: 9px;
+}
+
+.title {
+  width: 350px;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.link:hover {
+  color: blue;
+}
+
+.muscles-col {
+  width: 200px;
+  text-align: center;
+}
+
+.delete {
+  width: 50px;
+  text-align: center;
+}

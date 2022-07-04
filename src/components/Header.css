@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 34%;
+  margin-left: 33%;
+}
+
+button {
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #2383f0;
+  color: white;
+  font-weight: bold;
+}

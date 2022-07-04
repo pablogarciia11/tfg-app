@@ -1,0 +1,80 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-exercise {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  border: 1px solid black;
+  width: 25%;
+  min-height: 350px;
+  padding: 15px;
+}
+
+.form-adjacent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 48%;
+}
+
+.muscle-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.muscles {
+  display: flex;
+  justify-content: space-between;
+  width: 75%;
+}
+
+.form-muscle {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 47px;
+}
+
+.form-above {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  width: 45%;
+  margin-left: 27.5%;
+}
+
+.btn {
+  padding: 8px;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(0, 128, 255);
+  border-radius: 3px;
+}
+
+.btn-cancel {
+  background-color: rgb(243, 240, 240);
+  color: black;
+}
+
+input[type="text"] {
+  height: 20px;
+}
+
+select {
+  height: 25px;
+  width: 153px
+}

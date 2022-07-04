@@ -1,0 +1,21 @@
+h3 {
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 6px;
+  padding: 10px;
+  background-color: rgb(121, 134, 134);
+  color: white;
+}
+
+.showExercise {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 5px;
+}
