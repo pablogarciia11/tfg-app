@@ -9,6 +9,9 @@ import Sessions from './components/Sessions/Sessions.js'
 import NewSession from './components/Sessions/NewSession.js'
 import Session from './components/Sessions/Session.js'
 import Routines from './components/Routines/Routines.js'
+import NewRoutine from './components/Routines/NewRoutine.js'
+import Routine from './components/Routines/Routine.js'
+import Navbar from './components/Navbar'
 
 function App() {
   const [exercises, setExercises] = useState([])
@@ -109,6 +112,11 @@ function App() {
     })
   }
 
+  const addRoutine = async (routine) => {
+    const data = await addData(routine, 'routines')
+    setRoutines([...routines, data])
+  }
+
   // Delete Data
   const deleteExercise = async (id) => {
     await fetch(`http://127.0.0.1:8000/api/exercises/${id}`, {
@@ -126,8 +134,17 @@ function App() {
     setSessions(sessions.filter((session) => session.id !== id))
   }
 
+  const deleteRoutine = async (id) => {
+    await fetch(`http://127.0.0.1:8000/api/routines/${id}`, {
+      method: 'DELETE'
+    })
+
+    setRoutines(routines.filter((session) => session.id !== id))
+  }
+
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route
           path='/pruebas'
@@ -188,13 +205,27 @@ function App() {
           element={<Session />}
         />
 
-        {/*
+        {/* Rutas para rutinas */}
         <Route 
           path='routines'
           element=
             {<Routines 
-              routines={routines} 
+              routines={routines}
+              onDelete={deleteRoutine} 
             />}
+        />
+
+        <Route
+          path='routines/new-routine'
+          element={<NewRoutine 
+            onAdd={addRoutine}
+            routines={routines}
+          />}
+        />
+
+        <Route
+          path='routine/:id'
+          element={<Routine />}
         />
 
         {/*<Route 

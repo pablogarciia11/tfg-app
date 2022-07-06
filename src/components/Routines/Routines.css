@@ -1,0 +1,35 @@
+.routines {
+  display: flex;
+  justify-content: center;
+}
+
+table, th, td {
+  border-collapse: collapse;
+  border: 1px solid #c5c2c2;
+}
+
+th {
+  background-color: #dcdada;
+  padding: 7px;
+}
+
+td {
+  padding: 9px;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.link:hover {
+  color: blue;
+}
+
+.title {
+  width: 300px;
+}
