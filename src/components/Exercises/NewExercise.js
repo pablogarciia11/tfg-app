@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './NewExercise.css'
 
-function NewExercise({ onAdd }) {
+function NewExercise({ addExercise }) {
   const [name, setName] = useState('')
   const [equipment, setEquipment] = useState('')
   const [video, setVideo] = useState('')
@@ -16,7 +16,7 @@ function NewExercise({ onAdd }) {
 
     const fullName = name + ' con ' + equipment.toLowerCase()
 
-    onAdd({ name, equipment, fullName, video, description }, mainMuscle, secondMuscle)
+    addExercise({ name, equipment, fullName, video, description }, mainMuscle, secondMuscle)
 
     setName('')
     setEquipment('')
@@ -58,7 +58,7 @@ function NewExercise({ onAdd }) {
   return (  
     <div className='form-container'>
       <h2>Nuevo Ejercicio</h2>
-      <form className='add-exercise' onSubmit={onSubmit} >
+      <form className='add-exercise' onSubmit={ onSubmit } >
         <div className='form-adjacent'>
           <label>Nombre</label>
           <input type='text' value={name} onChange={(e) => setName(e.target.value)} />

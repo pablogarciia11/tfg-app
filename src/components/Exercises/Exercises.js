@@ -1,11 +1,62 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, Route, Routes } from 'react-router-dom'
 import  Popup from 'reactjs-popup'
-import Header from '../Header.js'
+import Header from '../Header'
+import DeleteRecord from '../DeleteRecord'
+import NewExercise from './NewExercise'
 import './Exercises.css'
-import DeleteRecord from '../DeleteRecord.js'
 
-function Exercises( {exercises, muscles, onDelete} ) {
+function Exercises({ fetchData, addData}) {
+  const [exercises, setExercises] = useState([])
+  const [muscles, setMuscles] = useState([])
+
+  useEffect(() => {
+    const getExercises = async () => {
+      const exercisesFromServer =  await fetchData('exercises')
+      setExercises(exercisesFromServer)
+    }
+
+    const getMuscles = async () => {
+      const musclesFromServer = await fetchData('muscles')
+      setMuscles(musclesFromServer)
+    }
+
+    getExercises()
+    getMuscles()
+  }, [fetchData, addData])
+
+  const addExercise = async (exercise, mainMuscle, secondMuscle) => {
+    const data = await addData(exercise, 'exercises')
+    setExercises([...exercises, data])
+
+    const updatedExercises = await fetchData('exercises')
+
+    updatedExercises.map((updatedExercise) => {
+      if (updatedExercise.fullName === exercise.fullName) {
+        if (mainMuscle !== '') {
+          addMuscle(mainMuscle, 'Principal', updatedExercise.id)
+        }
+        if (secondMuscle !== '') {
+          addMuscle(secondMuscle, 'Secundario', updatedExercise.id)
+        }
+      }
+    })
+  }
+
+  const addMuscle = async (muscle, type, exerciseId) => {
+    const muscleToAdd = {name: muscle, type: type, exerciseId: exerciseId}
+
+    await addData(muscleToAdd, 'muscles')
+  }
+
+  const deleteExercise = async (id) => {
+    await fetch(`http://127.0.0.1:8000/api/exercises/${id}`, {
+      method: 'DELETE'
+    })
+
+    setExercises(exercises.filter((exercise) => exercise.id !== id))
+  }
+
   return (
     <>
       <Header title='Ejercicios' path='new-exercise' />
@@ -34,7 +85,7 @@ function Exercises( {exercises, muscles, onDelete} ) {
                 <td className='delete'>
                   <Popup 
                     trigger={<i className="bi bi-trash-fill" ></i>} position="center center">
-                    {/*<DeleteRecord type='ejercicio' title={exercise.name} onCancel='' onDelete={onDelete(exercise.id)}/>*/}
+                    <DeleteRecord type='ejercicio' title={exercise.name} onCancel='' onDelete={() => deleteExercise(exercise.id)}/>
                   </Popup>
                 </td>
               </tr>
@@ -42,6 +93,15 @@ function Exercises( {exercises, muscles, onDelete} ) {
           </tbody>
         </table>
       </div>
+
+      <Routes>
+        <Route
+          path='exercises/new-exercise'
+          element={<NewExercise 
+            addExercise={addExercise}
+          />}
+        />
+      </Routes>
     </>
   )
 }

@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { useState, useEffect} from 'react'
+import { useState } from 'react'
 import Home from './components/Home'
 import Header from './components/Header.js'
 import Exercises from './components/Exercises/Exercises.js'
-import NewExercise from './components/Exercises/NewExercise.js'
 import Exercise from './components/Exercises/Exercise.js'
 import Sessions from './components/Sessions/Sessions.js'
 import NewSession from './components/Sessions/NewSession.js'
@@ -21,38 +20,12 @@ function App() {
   const [sessions, setSessions] = useState([])
   const [routines, setRoutines] = useState([])
 
-  // Método que recupera los valores de la base de datos
-  useEffect(() => {
-    const getExercises = async () => {
-      const exercisesFromServer =  await fetchData('exercises')
-      setExercises(exercisesFromServer)
-    }
-
-    const getMuscles = async () => {
-      const musclesFromServer = await fetchData('muscles')
-      setMuscles(musclesFromServer)
-    }
-
-    const getSessions = async () => {
-      const sessionsFromServer = await fetchData('sessions')
-      setSessions(sessionsFromServer)
-    }
-
-    const getRoutines = async () => {
-      const routinesFromServer = await fetchData('routines')
-      setRoutines(routinesFromServer)
-    }
-
-    getExercises()
-    getMuscles()
-    getSessions()
-    getRoutines()
-  }, [])
-
   // Fetch Data
   const fetchData = async(type) => {
     const res = await fetch(`http://127.0.0.1:8000/api/${type}`)
     const data = await res.json()
+
+    console.log(type)
 
     return data
   }
@@ -70,31 +43,6 @@ function App() {
     const data = await res.json()
 
     return data
-  }
-
-
-  const addExercise = async (exercise, mainMuscle, secondMuscle) => {
-    const data = await addData(exercise, 'exercises')
-    setExercises([...exercises, data])
-
-    const updatedExercises = await fetchData('exercises')
-
-    updatedExercises.map((updatedExercise) => {
-      if (updatedExercise.fullName === exercise.fullName) {
-        if (mainMuscle !== '') {
-          addMuscle(mainMuscle, 'Principal', updatedExercise.id)
-        }
-        if (secondMuscle !== '') {
-          addMuscle(secondMuscle, 'Secundario', updatedExercise.id)
-        }
-      }
-    })
-  }
-
-  const addMuscle = async (muscle, type, exerciseId) => {
-    const muscleToAdd = {name: muscle, type: type, exerciseId: exerciseId}
-
-    const data = await addData(muscleToAdd, 'muscles')
   }
 
   const addSession = async (session, exercisesSession) => {
@@ -115,15 +63,6 @@ function App() {
   const addRoutine = async (routine) => {
     const data = await addData(routine, 'routines')
     setRoutines([...routines, data])
-  }
-
-  // Delete Data
-  const deleteExercise = async (id) => {
-    await fetch(`http://127.0.0.1:8000/api/exercises/${id}`, {
-      method: 'DELETE'
-    })
-
-    setExercises(exercises.filter((exercise) => exercise.id !== id))
   }
 
   const deleteSession = async (id) => {
@@ -160,22 +99,19 @@ function App() {
 
         {/* Rutas para ejercicios */}
         <Route 
-          path='exercises'
+          path='exercises/*'
           element=
           {<Exercises 
-            exercises={exercises}
-            setExercises={setExercises} 
-            muscles={muscles} 
-            onDelete={deleteExercise}
+            fetchData={fetchData}
           />}
         />
 
-        <Route
-          path='exercises/new-exercise'
-          element={<NewExercise 
-            onAdd={addExercise}
-          />}
-        />
+        {/*<Route
+            path='exercises/new-exercise'
+            element={<NewExercise 
+              addExercise={addExercise}
+            />}
+          />*/}
 
         <Route
           path='exercise/:id'

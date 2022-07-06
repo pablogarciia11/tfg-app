@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Header from '../Header.css'
 import Popup from 'reactjs-popup'
+import Header from '../Header'
 import DeleteRecord from '../DeleteRecord'
 import './Sessions.css'
 
 function Sessions({ sessions, onDelete }) {
   return (
     <>
-      {/*<Header title='Sesiones' path='new-session'/>*/}
+      <Header title='Sesiones' path='new-session'/>
       <div className='sessions'>
         <table>
           <thead>
@@ -19,7 +19,6 @@ function Sessions({ sessions, onDelete }) {
             </tr>
           </thead>
           <tbody>
-            {console.log(sessions.length)}
             {sessions.map((session) => (
               <tr key={session.id}>
                 <td className='left-align'>
@@ -33,7 +32,7 @@ function Sessions({ sessions, onDelete }) {
                 <td className='delete'>
                   <Popup 
                     trigger={<i className="bi bi-trash-fill" ></i>} position="center center">
-                    {/*<DeleteRecord type='session' title={session.name} onCancel='' onDelete={onDelete(session.id)}/>*/}
+                    <DeleteRecord type='session' title={session.name} onCancel='' onDelete={() => onDelete(session.id)}/>
                   </Popup>
                 </td>
               </tr>

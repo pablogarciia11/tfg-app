@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Popup from 'reactjs-popup'
+import DeleteRecord from '../DeleteRecord'
 import Header from '../Header'
 import './Routines.css'
 
@@ -25,7 +27,12 @@ function Routines({ routines, onDelete }) {
                   </Link>
                 </td>
                 <td>{routine.objective}</td>
-                <td><i className="bi bi-trash-fill" ></i></td>
+                <td>
+                  <Popup 
+                    trigger={<i className="bi bi-trash-fill" ></i>} position="center center">
+                    <DeleteRecord type='routine' title={routine.name} onCancel='' onDelete={() => onDelete(routine.id)}/>
+                  </Popup>
+                </td>
               </tr>
             ))}
           </tbody>
