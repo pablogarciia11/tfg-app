@@ -1,20 +1,44 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './NewSession.css'
 
-function NewSession( {onAdd, exercisesFromServer} ) {
+function NewSession({ fetchData, addSession }) {
+  const [exercisesFromServer, setExercisesFromServer] = useState([])
   const [name, setName] = useState('')
-  const [exercises, setExercises] = ([{exerciseId: '',name: '', series: '', minReps: 0, maxReps: 0, rest: 0, RIR: 0, observations: '', sessionId: ''}])
+  const [exercises, setExercises] = useState([{
+    id: 1,
+    name: '',
+    series: 0,
+    minReps: 0,
+    maxReps: 0,
+    RIR: 0,
+    rest: 0
+  }])
   const [description, setDescription] = useState('')
+
+  useEffect(() => {
+    const getExercises = async () => {
+      setExercisesFromServer(await fetchData('exercises'))
+    }
+
+    getExercises()
+  }, [fetchData, setExercisesFromServer])
 
   const onSubmit = (e) => {
     e.preventDefault()
 
-    onAdd({ name, description })
+    addSession({ name, description })
 
     setName('')
     setDescription('')
+  }
+
+  const addExercise = (e) => {
+    console.log(e.reps)
+  }
+
+  const removeExercise = (e) => {
+
   }
 
   return (
@@ -22,7 +46,7 @@ function NewSession( {onAdd, exercisesFromServer} ) {
       <h2>Nueva Sesión</h2>
       <form className='add-session' onSubmit={onSubmit}>
         <div className='form-adjacent'>
-          <label>Nombre</label>
+          <label>Nombre de la sesión:</label>
           <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
         </div>
 
@@ -37,7 +61,8 @@ function NewSession( {onAdd, exercisesFromServer} ) {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {exercises.map((exercise) => {
+              <tr key={exercise.id}>
                 <td className='no-style align-left'>
                   <select>
                   {exercisesFromServer.map((exerciseFromServer) => (
@@ -45,13 +70,34 @@ function NewSession( {onAdd, exercisesFromServer} ) {
                   ))}
                   </select>
                 </td>
-                <td className='no-style'></td>
-                <td className='no-style'></td>
+                <td className='no-style'>
+                  <input type='number' min='0' value={exercise.series} />
+                </td>
+                <td className='no-style'>
+                  <input type='number' min='0' value={exercise.minReps} />
+                </td>
                 <td className='no-style'>-</td>
-                <td className='no-style'></td>
-                <td className='no-style'></td>
-                <td className='no-style'></td>
+                <td className='no-style'>
+                  <input type='number' min='0' value={exercise.maxReps} />
+                </td>
+                <td className='no-style'>
+                  <input type='number' min='0' value={exercise.RIR} />
+                </td>
+                <td className='no-style'>
+                  <input type='number' min='0' value={exercise.rest} />
+                </td>
+                <td className='no-style'>
+                  {exercises.length > 1 ? 
+                    <button onClick={(e) => addExercise(e.target.value)}>
+                      <i class="bi bi-dash-circle"></i>
+                    </button> : <></>
+                  }
+                  <button onClick={(e) => removeExercise(e.target.value)}>
+                    <i class="bi bi-plus-circle-fill"></i>
+                  </button>
+                </td>
               </tr>
+            })}
           </tbody>
         </table>
 

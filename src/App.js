@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom'
 import { useState } from 'react'
 import Home from './components/Home'
 import Header from './components/Header.js'
 import Exercises from './components/Exercises/Exercises.js'
+import NewExercise from './components/Exercises/NewExercise'
 import Exercise from './components/Exercises/Exercise.js'
 import Sessions from './components/Sessions/Sessions.js'
 import NewSession from './components/Sessions/NewSession.js'
@@ -25,28 +26,56 @@ function App() {
     const res = await fetch(`http://127.0.0.1:8000/api/${type}`)
     const data = await res.json()
 
-    console.log(type)
-
     return data
   }
 
   // Add Data
-  const addData = async (record, type) => {
-    const res = await fetch(`http://127.0.0.1:8000/api/${type}`, {
+  const addData = (record, type) => {
+    fetch(`http://127.0.0.1:8000/api/${type}`, {
       method: 'POST',
       headers: {
-        'Content-type' : 'application/json'
+        'Content-Type' : 'application/json'
       },
       body: JSON.stringify(record)
+    }).then(async response => {
+      const isJson = response.headers.get('content-type')?.includes('application/json');
+      const data = isJson && await response.json();
+
+      if (!response.ok) {
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+    }).catch(error => {
+      this.setState({ errorMessage: error.toString() });
+      console.error('There was an error!', error);
+    });
+  }
+
+  const addExercise = async (exercise, mainMuscle, secondMuscle) => {
+    addData(exercise, 'exercises')
+
+    const fullName = exercise.name + ' con ' + exercise.equipment.toLowerCase()
+    const updatedExercises = await fetchData('exercises')
+
+    updatedExercises.filter(match => match.fullName === fullName).map((filtered) => {
+        if (mainMuscle !== '') 
+          addMuscle(mainMuscle, 'Principal', filtered.id)
+
+        if (secondMuscle !== '')
+          addMuscle(secondMuscle, 'Secundario', filtered.id)
     })
 
-    const data = await res.json()
+    (<Navigate to='/exercises' />)
+  }
 
-    return data
+  const addMuscle = async (muscle, type, exerciseId) => {
+    const muscleToAdd = {name: muscle, type: type, exerciseId: exerciseId}
+
+    addData(muscleToAdd, 'muscles')
   }
 
   const addSession = async (session, exercisesSession) => {
-    const data = await addData(session, 'sessions')
+    const data = addData(session, 'sessions')
     setSessions([...sessions, data])
 
     const updatedSessions = await fetchData('sessions')
@@ -63,14 +92,6 @@ function App() {
   const addRoutine = async (routine) => {
     const data = await addData(routine, 'routines')
     setRoutines([...routines, data])
-  }
-
-  const deleteSession = async (id) => {
-    await fetch(`http://127.0.0.1:8000/api/sessions/${id}`, {
-      method: 'DELETE'
-    })
-
-    setSessions(sessions.filter((session) => session.id !== id))
   }
 
   const deleteRoutine = async (id) => {
@@ -99,19 +120,19 @@ function App() {
 
         {/* Rutas para ejercicios */}
         <Route 
-          path='exercises/*'
+          path='exercises'
           element=
           {<Exercises 
             fetchData={fetchData}
           />}
         />
 
-        {/*<Route
-            path='exercises/new-exercise'
-            element={<NewExercise 
-              addExercise={addExercise}
-            />}
-          />*/}
+        <Route
+          path='exercises/new-exercise'
+          element={<NewExercise 
+            addExercise={addExercise}
+          />}
+        />
 
         <Route
           path='exercise/:id'
@@ -123,16 +144,15 @@ function App() {
           path='sessions'
           element=
             {<Sessions 
-              sessions={sessions} 
-              onDelete={deleteSession}
+              fetchData={fetchData}
             />}
         />
 
         <Route
           path='sessions/new-session'
           element={<NewSession 
-            onAdd={addSession}
-            exercises={exercises}
+            fetchData={fetchData}
+            addSession={addSession}
           />}
         />
 
@@ -146,15 +166,14 @@ function App() {
           path='routines'
           element=
             {<Routines 
-              routines={routines}
-              onDelete={deleteRoutine} 
+              fetchData={fetchData}
             />}
         />
 
         <Route
           path='routines/new-routine'
           element={<NewRoutine 
-            onAdd={addRoutine}
+            addRoutine={addRoutine}
             routines={routines}
           />}
         />

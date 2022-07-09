@@ -11,12 +11,14 @@ function NewExercise({ addExercise }) {
   const [mainMuscle, setMainMuscle] = useState('')
   const [secondMuscle, setSecondMuscle] = useState('')
 
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault()
 
-    const fullName = name + ' con ' + equipment.toLowerCase()
+    const createdBy = 1
 
-    addExercise({ name, equipment, fullName, video, description }, mainMuscle, secondMuscle)
+    console.log(JSON.stringify({ name, equipment, description, createdBy, video }))
+
+    await addExercise({ name, equipment, description, createdBy, video }, mainMuscle, secondMuscle)
 
     setName('')
     setEquipment('')

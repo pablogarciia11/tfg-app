@@ -1,11 +1,31 @@
 import React from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Popup from 'reactjs-popup'
 import Header from '../Header'
-import DeleteRecord from '../DeleteRecord'
 import './Sessions.css'
 
-function Sessions({ sessions, onDelete }) {
+function Sessions({ fetchData }) {
+  const [sessions, setSessions] = useState([])
+  const [buttonPopup, setButtonPopup] = useState(false)
+
+  useEffect(() => {
+    const getSessions = async () => {
+      const sessionsFromServer =  await fetchData('sessions')
+      setSessions(sessionsFromServer)
+    }
+
+    getSessions()
+  }, [fetchData])
+
+  const deleteSession = async (id) => {
+    await fetch(`http://127.0.0.1:8000/api/sessions/${id}`, {
+      method: 'DELETE'
+    })
+
+    setSessions(sessions.filter((session) => session.id !== id))
+  }
+
   return (
     <>
       <Header title='Sesiones' path='new-session'/>
@@ -30,10 +50,8 @@ function Sessions({ sessions, onDelete }) {
                   {sessions.description}
                 </td>
                 <td className='delete'>
-                  <Popup 
-                    trigger={<i className="bi bi-trash-fill" ></i>} position="center center">
-                    <DeleteRecord type='session' title={session.name} onCancel='' onDelete={() => onDelete(session.id)}/>
-                  </Popup>
+                  <i className="bi bi-trash-fill" onClick={() => setButtonPopup(true)} ></i>
+                  <Popup trigger={buttonPopup}></Popup>
                 </td>
               </tr>
             ))}

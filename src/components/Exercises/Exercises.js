@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, PureComponent } from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
-import  Popup from 'reactjs-popup'
+//import Popup from 'reactjs-popup'
+import Popup from '../Popup'
 import Header from '../Header'
-import DeleteRecord from '../DeleteRecord'
 import NewExercise from './NewExercise'
+import Exercise from './Exercise'
 import './Exercises.css'
 
-function Exercises({ fetchData, addData}) {
+function Exercises({ fetchData }) {
   const [exercises, setExercises] = useState([])
   const [muscles, setMuscles] = useState([])
+  const [buttonPopup, setButtonPopup] = useState(false)
 
   useEffect(() => {
     const getExercises = async () => {
@@ -23,31 +25,7 @@ function Exercises({ fetchData, addData}) {
 
     getExercises()
     getMuscles()
-  }, [fetchData, addData])
-
-  const addExercise = async (exercise, mainMuscle, secondMuscle) => {
-    const data = await addData(exercise, 'exercises')
-    setExercises([...exercises, data])
-
-    const updatedExercises = await fetchData('exercises')
-
-    updatedExercises.map((updatedExercise) => {
-      if (updatedExercise.fullName === exercise.fullName) {
-        if (mainMuscle !== '') {
-          addMuscle(mainMuscle, 'Principal', updatedExercise.id)
-        }
-        if (secondMuscle !== '') {
-          addMuscle(secondMuscle, 'Secundario', updatedExercise.id)
-        }
-      }
-    })
-  }
-
-  const addMuscle = async (muscle, type, exerciseId) => {
-    const muscleToAdd = {name: muscle, type: type, exerciseId: exerciseId}
-
-    await addData(muscleToAdd, 'muscles')
-  }
+  }, [fetchData])
 
   const deleteExercise = async (id) => {
     await fetch(`http://127.0.0.1:8000/api/exercises/${id}`, {
@@ -55,6 +33,7 @@ function Exercises({ fetchData, addData}) {
     })
 
     setExercises(exercises.filter((exercise) => exercise.id !== id))
+    setButtonPopup(false)
   }
 
   return (
@@ -83,9 +62,9 @@ function Exercises({ fetchData, addData}) {
                   ))}
                 </td>
                 <td className='delete'>
-                  <Popup 
-                    trigger={<i className="bi bi-trash-fill" ></i>} position="center center">
-                    <DeleteRecord type='ejercicio' title={exercise.name} onCancel='' onDelete={() => deleteExercise(exercise.id)}/>
+                  <i className="bi bi-trash-fill" onClick={() => setButtonPopup(true)} ></i>
+                  <Popup trigger={buttonPopup} setTrigger={setButtonPopup} onDelete={() => deleteExercise(exercise.id)} >
+                    <p>¿Está seguro que desea eliminar el ejercicio: {exercise.fullName}?</p>
                   </Popup>
                 </td>
               </tr>
@@ -93,15 +72,6 @@ function Exercises({ fetchData, addData}) {
           </tbody>
         </table>
       </div>
-
-      <Routes>
-        <Route
-          path='exercises/new-exercise'
-          element={<NewExercise 
-            addExercise={addExercise}
-          />}
-        />
-      </Routes>
     </>
   )
 }

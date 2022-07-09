@@ -1,11 +1,13 @@
 import React from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Popup from 'reactjs-popup'
-import DeleteRecord from '../DeleteRecord'
 import Header from '../Header'
 import './Routines.css'
 
 function Routines({ routines, onDelete }) {
+  const [buttonPopup, setButtonPopup] = useState(false)
+
   return (
     <>
       <Header title='Rutinas' path='routines' />
@@ -27,11 +29,9 @@ function Routines({ routines, onDelete }) {
                   </Link>
                 </td>
                 <td>{routine.objective}</td>
-                <td>
-                  <Popup 
-                    trigger={<i className="bi bi-trash-fill" ></i>} position="center center">
-                    <DeleteRecord type='routine' title={routine.name} onCancel='' onDelete={() => onDelete(routine.id)}/>
-                  </Popup>
+                <td className='delete'>
+                  <i className="bi bi-trash-fill" onClick={() => setButtonPopup(true)} ></i>
+                  <Popup trigger={buttonPopup}></Popup>
                 </td>
               </tr>
             ))}
