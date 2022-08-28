@@ -1,0 +1,89 @@
+.se-form-container {
+    width: 65%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+
+    margin-bottom: 20px;
+}
+
+.se-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+}
+
+.row-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+
+    width: 90%;
+    margin-top: 10px;
+    margin-left: 5%;
+    height: 100px;
+}
+
+.se-exercises-section {
+    padding-top: 20px;
+    width: 100%;
+}
+
+.title-centered {
+    text-align: center;
+}
+
+.session-input {
+    width: 45px;
+    text-align: center;
+}
+
+.remove-exercise {
+    color: grey;
+    background-color: white;
+    border: 1px solid;
+    border-radius: 3px;
+
+    padding-bottom: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.remove-exercise:hover {
+    color: white;
+    background-color: red;
+}
+
+.add-exercise {
+    color: grey;
+    background-color: white;
+    border: 1px solid;
+    border-radius: 3px;
+
+    padding-bottom: 5px;
+}
+
+.add-exercise:hover {
+    color: white;
+    background-color: rgb(0, 89, 255);
+}
+
+table, th, td {
+    width: 95%;
+    margin-left: 2%;
+    border: none !important;
+    background-color: white !important;
+}
+
+.se-user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

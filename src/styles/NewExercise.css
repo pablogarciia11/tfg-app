@@ -1,0 +1,66 @@
+.ex-form-container {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.ex-form-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+
+    height: 310px;
+    width: 360px;
+    padding: 5px;
+}
+
+/*input[type='text'] {
+    width: 100%;
+}*/
+
+.video-information {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-adjacent {
+    width: 65%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.muscle-section {
+    width: 100%;
+}
+
+.label-bold {
+    font-weight: bold;
+}
+
+.muscle-group {
+    width: 90%;
+    margin-left: 5%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.muscle {
+    display: flex;
+    flex-direction: column;
+}
+
+.description-field {
+    width: 100%;
+}
+
+.submit-button {
+    width: 100%;
+    
+    display: flex;
+    justify-content: center;
+
+}

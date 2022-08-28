@@ -1,0 +1,25 @@
+.my-routines-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 30px;
+
+  min-height: 360px;
+  max-height: 9000px;
+}
+
+.my-routine-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid;
+  border-radius: 5px;
+  min-width: 400px;
+  max-width: 450px;
+  padding: 10px;
+}

@@ -1,0 +1,62 @@
+.session-container {
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  min-width: 60px;
+  background-color: rgb(198, 198, 198);
+}
+
+th, td {
+  text-align: center;
+}
+
+.large-width {
+  min-width: 300px !important;
+  text-align: left !important;
+}
+
+.session-detail {
+  width: 70%;
+
+  border: 1px solid !important;
+  padding: 5px;
+}
+
+.button-normal {
+  width: 110px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.button-normal:hover {
+  background-color: rgb(163, 161, 161);
+}
+
+.session-btn-group {
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+}
+
+.button-confirm {
+  width: 150px;
+  background-color: royalblue;
+  color: white;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight: bold;
+}

@@ -1,0 +1,57 @@
+.re-form-container {
+  display: flex;
+  justify-content: center;
+
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);   
+}
+
+.register-form {
+  max-width: 500px;
+  height: 400px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 90%;
+  margin-left: 5%;
+}
+
+.form-info {
+  width: 80%;
+}
+
+.register-input {
+  width:90%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgb(182, 182, 182);
+}
+
+.date-row, .role-row {
+  width: 100%;
+}
+
+.role-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 28px;
+}
+
+.error-control {
+  position: absolute;
+  font-size: small;
+  color: rgb(179, 8, 8);
+}

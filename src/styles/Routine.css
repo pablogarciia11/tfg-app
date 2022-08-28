@@ -1,0 +1,40 @@
+.routine-container {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.routine-detail {
+  min-width: 180px;
+  max-width: 230px;
+
+  border: 1px solid !important;
+  padding: 5px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  background-color: rgb(198, 198, 198);
+}
+
+th, td {
+  text-align: center;
+}
+
+.info-card {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.info-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

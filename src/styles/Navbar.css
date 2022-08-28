@@ -1,0 +1,24 @@
+.navbar {
+  width: 100%;
+  background-color: black;
+}
+
+.navbar-elements {
+  width: 60%;
+  margin-left: 20%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-link {
+  text-decoration: none;
+  color: white;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.top-link:hover {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
