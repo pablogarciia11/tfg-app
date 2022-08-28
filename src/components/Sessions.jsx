@@ -68,32 +68,32 @@ const Sessions = ({API_URL}) => {
     })
   }
 
-  const getExercises = async () => {
-    const res = await fetch(`${API_URL}/exercises`)
-    const data = await res.json()
-
-    if(localStorage.getItem('role') == 'trainer') {
-      let filtered = data.filter(ex => ex.createdBy == localStorage.getItem('id'))
-      setExercises(filtered)
-    } else {
-      setExercises(data)
-    }
-  }
-
-  const getCustomers = async () => {
-    await fetch(`${API_URL}/users`)
-          .then(res => res.json())
-          .then(data => {
-            if(localStorage.getItem('role') == 'trainer') {
-              let filtered = data.filter(s => s.trainer == localStorage.getItem('id'))
-              setCustomers(filtered)
-            } else {
-              setCustomers(data)
-            }
-          })
-  }
-
   useEffect(() => {
+    const getExercises = async () => {
+      const res = await fetch(`${API_URL}/exercises`)
+      const data = await res.json()
+  
+      if(localStorage.getItem('role') == 'trainer') {
+        let filtered = data.filter(ex => ex.createdBy == localStorage.getItem('id'))
+        setExercises(filtered)
+      } else {
+        setExercises(data)
+      }
+    }
+  
+    const getCustomers = async () => {
+      await fetch(`${API_URL}/users`)
+            .then(res => res.json())
+            .then(data => {
+              if(localStorage.getItem('role') == 'trainer') {
+                let filtered = data.filter(s => s.trainer == localStorage.getItem('id'))
+                setCustomers(filtered)
+              } else {
+                setCustomers(data)
+              }
+            })
+    }
+    
     getSessions('')
     getExercises()
     getCustomers()

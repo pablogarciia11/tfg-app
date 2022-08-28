@@ -11,6 +11,8 @@ import Register from './components/Register'
 import Routine from './components/Routine'
 import MySessions from './components/MySessions'
 import MyRoutines from './components/MyRoutines'
+import Customers from './components/Customers'
+import SessionRoutine from './components/SessionRoutine'
 
 const API_URL = 'http://127.0.0.1:8000/api'
 
@@ -56,6 +58,13 @@ const App = () => {
             />
 
             <Route
+              path='sessionRoutine/:id'
+              element={
+                <SessionRoutine API_URL={API_URL} />
+              }
+            />
+
+            <Route
               path='routines'
               element={localStorage.getItem('role') == 'customer' ? (
                 <MyRoutines API_URL={API_URL} />
@@ -70,6 +79,13 @@ const App = () => {
                 <Routine API_URL={API_URL} />
               }
             />
+
+            <Route
+              path='customers'
+              element={
+                <Customers API_URL={API_URL} />
+              }
+            />  
           </Routes>
         </>
       ) : (

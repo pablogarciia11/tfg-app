@@ -69,7 +69,7 @@ const Routine = ({API_URL}) => {
               return (
                 <td className='routine-detail' key={index}> 
                   {sessionMap[index] ? (
-                    <Link to={`/session/${sessionMap[index] ? sessionMap[index].id : ''}`}>
+                    <Link to={`/sessionRoutine/${sessionMap[index] ? sessionMap[index].id : ''}`}>
                       {sessionMap[index] ? sessionMap[index].name : ''}
                     </Link>
                     ) : (

@@ -1,0 +1,30 @@
+.customers-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 20px;
+
+  min-height: 250px;
+}
+
+.cutomers-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 42%;
+}
+
+.customer-title:hover {
+  color: royalblue;
+  cursor: pointer;
+}
+
+.title-selected {
+  color: royalblue;
+  text-decoration: underline;
+}

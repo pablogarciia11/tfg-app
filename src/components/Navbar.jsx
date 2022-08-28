@@ -29,7 +29,7 @@ const Navbar = ({setUserId}) => {
         </h2>
         {localStorage.getItem('role') != 'customer' ? (
           <h2>
-            <Link to='/clients' className='top-link'>
+            <Link to='/customers' className='top-link'>
               Clientes
             </Link>
           </h2>

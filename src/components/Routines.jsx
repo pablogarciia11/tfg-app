@@ -98,32 +98,6 @@ const Routines = ({API_URL}) => {
     })
   }
 
-  const getSessions = async () => {
-    await fetch(`${API_URL}/sessions`)
-    .then(res => res.json())
-    .then(data => {
-      if(localStorage.getItem('role') == 'trainer') {
-        let filtered = data.filter(s => s.createdBy == localStorage.getItem('id'))
-        setSessions(filtered)
-      } else {
-        setSessions(data)
-      }
-    })
-  }
-
-  const getCustomers = async () => {
-    await fetch(`${API_URL}/users`)
-          .then(res => res.json())
-          .then(data => {
-            if(localStorage.getItem('role') == 'trainer') {
-              let filtered = data.filter(s => s.trainer == localStorage.getItem('id'))
-              setCustomers(filtered)
-            } else {
-              setCustomers(data)
-            }
-          })
-  }
-
   const onShow = () => {
     let updated = [...emptyWeekDays]
     setEditWeekDays(updated)
@@ -175,6 +149,32 @@ const Routines = ({API_URL}) => {
   }
 
   useEffect(() => {
+    const getSessions = async () => {
+      await fetch(`${API_URL}/sessions`)
+      .then(res => res.json())
+      .then(data => {
+        if(localStorage.getItem('role') == 'trainer') {
+          let filtered = data.filter(s => s.createdBy == localStorage.getItem('id'))
+          setSessions(filtered)
+        } else {
+          setSessions(data)
+        }
+      })
+    }
+  
+    const getCustomers = async () => {
+      await fetch(`${API_URL}/users`)
+            .then(res => res.json())
+            .then(data => {
+              if(localStorage.getItem('role') == 'trainer') {
+                let filtered = data.filter(s => s.trainer == localStorage.getItem('id'))
+                setCustomers(filtered)
+              } else {
+                setCustomers(data)
+              }
+            })
+    }
+    
     getRoutines('')
     getSessions()
     getCustomers()
