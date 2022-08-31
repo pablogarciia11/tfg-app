@@ -29,7 +29,7 @@ const App = () => {
               path='/' 
               element={
                 <>
-                  <Home />
+                  <Home API_URL={API_URL} />
                 </>
               }
             />

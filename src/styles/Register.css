@@ -3,13 +3,13 @@
   justify-content: center;
 
   position: absolute;
-  top: 40%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);   
 }
 
 .register-form {
-  max-width: 500px;
+  min-width: 500px;
   height: 400px;
 
   display: flex;
@@ -29,29 +29,38 @@
 
 .form-info {
   width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.register-input {
+.register-input, .info-input {
   width:90%;
   padding: 5px;
   border-radius: 5px;
   border: 1px solid rgb(182, 182, 182);
 }
 
+.info-input {
+  width: 50% !important;
+  margin-left: 20%;
+}
+
 .date-row, .role-row {
   width: 100%;
-}
 
-.role-row {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-
-  padding: 28px;
+  align-items: baseline;
 }
 
-.error-control {
+.show-errors {
   position: absolute;
-  font-size: small;
-  color: rgb(179, 8, 8);
+  top: 0 !important;
+}
+
+.no-button {
+  border: none;
+  background-color: inherit;
 }

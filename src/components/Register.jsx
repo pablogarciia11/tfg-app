@@ -1,9 +1,11 @@
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/Register.css'
 
 const Register = ({API_URL, setUserId}) => {
   const navigate = useNavigate()
+  const actualDate = moment(new Date()).format('YYYY-MM-DD')
   const [users, setUsers] = useState([])
   const [user, setUser] = useState({
     firstName: '',
@@ -18,7 +20,8 @@ const Register = ({API_URL, setUserId}) => {
   const [info, setInfo] = useState({
     weight: '',
     height: '',
-    date: ''
+    date: actualDate,
+    userId: ''
   })
 
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -43,12 +46,16 @@ const Register = ({API_URL, setUserId}) => {
     })
     .then(res => res.json())
     .then(data => {
+      info.userId = data.id
+
+      console.log(JSON.stringify(info))
+
       fetch(`${API_URL}/informations`, {
         method: 'POST',
         headers: {
           'Content-type' : 'application/json'
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(info)
       })
 
 
@@ -67,7 +74,7 @@ const Register = ({API_URL, setUserId}) => {
   }
 
   const handleInfo = (key, value) => {
-    let updated = {...user}
+    let updated = {...info}
     updated[key] = value
 
     setInfo(updated)
@@ -119,6 +126,7 @@ const Register = ({API_URL, setUserId}) => {
 
   useEffect(() => {
     getUsers()
+    console.log(actualDate)
   }, [API_URL])
 
   return (
@@ -162,14 +170,6 @@ const Register = ({API_URL, setUserId}) => {
                   value={user.email}
                   onChange={(e) => handleUser('email', e.target.value)}
                 />
-
-                {emailError ? 
-                  <p className='error-control'>
-                    El correo electrónico ya está en uso
-                  </p>
-                  : 
-                  <></>
-                }
               </div>
 
               <div className='form-info'>
@@ -181,14 +181,6 @@ const Register = ({API_URL, setUserId}) => {
                   value={user.userName}
                   onChange={(e) => handleUser('userName', e.target.value)}
                 />
-
-                {usernameError ? 
-                  <p className='error-control'>
-                    El nombre de usuario ya está en uso
-                  </p>
-                  : 
-                  <></>
-                }
               </div>
             </div>
 
@@ -212,24 +204,18 @@ const Register = ({API_URL, setUserId}) => {
                   placeholder='Confirmar contraseña'
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
-                
-                {passwordError ? 
-                  <p className='error-control'>
-                    Las contraseñas no coinciden
-                  </p>
-                  : 
-                  <></>
-                }
               </div>
             </div>
-
+            
             <div className='form-row'>
               <div className='date-row'>
                 <label>Fecha de nacimiento</label>
                 <input
                   className='register-input'
+                  max={actualDate}
                   type='date'
                   required
+                  value={user.birth}
                   onChange={(e) => handleUser('birth', e.target.value)}
                 />
               </div>
@@ -247,7 +233,7 @@ const Register = ({API_URL, setUserId}) => {
             <div className='form-row'>
               <div className='form-info'>
                 <input
-                  className='register-input'
+                  className='info-input'
                   type='number'
                   placeholder='Peso (kg)'
                   value={info.weight}
@@ -257,7 +243,7 @@ const Register = ({API_URL, setUserId}) => {
 
               <div className='form-info'>
                 <input
-                  className='register-input'
+                  className='info-input'
                   type='number'
                   placeholder='Altura (cm)'
                   value={info.height}
@@ -277,6 +263,41 @@ const Register = ({API_URL, setUserId}) => {
                 ¿Ya tienes cuenta?
                 Iniciar sesión
               </Link>
+            </div>
+
+            <div className='show-errors'>
+              {emailError ? (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>El correo electrónico ya se encuentra en uso.</strong>
+                  <button onClick={() => setEmailError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              {usernameError ? (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>El nombre de usuario ya se encuentra en uso.</strong>
+                  <button onClick={() => setUsernameError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              {passwordError ? (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                  <strong>Las contraseñas no coinciden.</strong>
+                  <button onClick={() => setPasswordError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </form>

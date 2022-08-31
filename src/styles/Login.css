@@ -19,9 +19,10 @@
 }
 
 .form-floating {
-  margin-left: 20px;
+  position: relative;
+  text-align: center;
 }
 
-label {
-  position: inherit;
+.login-label {
+  margin-left: 12px;
 }

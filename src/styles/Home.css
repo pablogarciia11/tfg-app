@@ -1,0 +1,30 @@
+.pending-petitions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 40%;
+    margin-left: 30%;
+}
+
+.petitions-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 40%;
+}
+
+.accept-petition-button, .reject-petition-button {
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+.reject-petition-button {
+    background-color: brown;
+}
+
+.accept-petition-button {
+    background-color: royalblue;
+}

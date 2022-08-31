@@ -50,7 +50,7 @@ const Login = ({API_URL, setUserId}) => {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
-              <label htmlFor="floatingInput">Correo electrónico</label>
+              <label className='login-label' htmlFor="floatingInput">Correo electrónico</label>
             </div>
 
             <div className='form-floating'>
@@ -62,7 +62,7 @@ const Login = ({API_URL, setUserId}) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <label htmlFor="floatingPassword">Contraseña</label>
+              <label className='login-label' htmlFor="floatingPassword">Contraseña</label>
             </div>
             
             <div className=''>
