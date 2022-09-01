@@ -1,0 +1,47 @@
+.pf-form-container {
+  margin-top: 50px;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 20px;
+
+  width: 34%;
+  margin-left: 33%;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+
+  width: 100%;
+  height: 300px;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.password-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 50%;
+}
+
+.space-top {
+  margin-top: 50px;
+}
+
+.space-above {
+  margin-top: 30px;
+}
+
+.profile-input {
+  width: 200px;
+}

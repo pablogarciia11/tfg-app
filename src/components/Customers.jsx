@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../styles/Customers.css'
 import ShowCustomers from './ShowCustomers'
 
@@ -9,6 +10,7 @@ const Customers = ({API_URL}) => {
   const [showMine, setShowMine] = useState(true)
   const [petitions, setPetitions] = useState([])
   const [dummy, setDummy] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getCustomers = async () => {
@@ -17,7 +19,7 @@ const Customers = ({API_URL}) => {
             .then(data => {
               setCustomers(data.filter(d => 
                 d.trainer != localStorage.getItem('id') &&
-                d.id != localStorage.getItem('id'))
+                d.role == 'customer')
               )
               setFiltered(data.filter(d => d.trainer == localStorage.getItem('id')))
             })
@@ -40,48 +42,61 @@ const Customers = ({API_URL}) => {
   }, [API_URL, dummy])
 
   return (
-    <div className='customers-container'>
-      <div className='cutomers-options'>
-        <h1 className={`customer-title ${showMine ? 'title-selected' : ''}`} onClick={() => setShowMine(true)}>
-          Mis clientes
-        </h1>
-        <h1>|</h1>
-        <h1 className={`customer-title ${showMine ? '' : 'title-selected'}`} onClick={() => setShowMine(false)}>
-          Buscar nuevo
-        </h1>
+    <>
+      <div className='text-center'>
+        <button onClick={() => navigate(-1)} className='cancel-button space-top'>
+          Volver
+        </button>
       </div>
-
-      {showMine ? (
-        (filtered.length > 0 ? (
-          <ShowCustomers 
-            customers={filtered}
-            API_URL={API_URL}
-            actions={false}
-            dummy={dummy}
-            setDummy={setDummy}
-          />
-        ) : (
-          <h1>
-            No se han encontrado sesiones
-          </h1>
-        ))
+      {localStorage.getItem('role') != 'customer' ? (
+        <div className='customers-container'>
+          <div className='cutomers-options'>
+            <h1 className={`customer-title ${showMine ? 'title-selected' : ''}`} onClick={() => setShowMine(true)}>
+              Mis clientes
+            </h1>
+            <h1>|</h1>
+            <h1 className={`customer-title ${showMine ? '' : 'title-selected'}`} onClick={() => setShowMine(false)}>
+              Buscar nuevo
+            </h1>
+          </div>
+    
+          {showMine ? (
+            (filtered.length > 0 ? (
+              <ShowCustomers 
+                customers={filtered}
+                API_URL={API_URL}
+                actions={false}
+                dummy={dummy}
+                setDummy={setDummy}
+              />
+            ) : (
+              <h1>
+                No se han encontrado sesiones
+              </h1>
+            ))
+          ) : (
+            (customers.length > 0 ? (
+              <ShowCustomers 
+                customers={customers}
+                API_URL={API_URL}
+                actions={true}
+                petitions={petitions}
+                dummy={dummy}
+                setDummy={setDummy}
+              />
+            ) : (
+              <h1>
+                No se han encontrado sesiones
+              </h1>
+            ))
+          )}
+        </div>
       ) : (
-        (customers.length > 0 ? (
-          <ShowCustomers 
-            customers={customers}
-            API_URL={API_URL}
-            actions={true}
-            petitions={petitions}
-            dummy={dummy}
-            setDummy={setDummy}
-          />
-        ) : (
-          <h1>
-            No se han encontrado sesiones
-          </h1>
-        ))
+        <div className='text-center space-top'>
+          <h1>Vaya... parece que te has equivocado de ruta</h1>
+        </div>
       )}
-    </div>
+    </>
   )
 }
 

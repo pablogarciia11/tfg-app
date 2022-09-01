@@ -4,21 +4,38 @@
 }
 
 .navbar-elements {
-  width: 60%;
-  margin-left: 20%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50px;
+  background-color: black;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .top-link {
-  text-decoration: none;
   color: white;
-  font-weight: normal;
+  text-decoration: none;
+  font-size: 24px;
+  margin-left: 45px;
+  margin-right: 45px;
   cursor: pointer;
 }
 
 .top-link:hover {
-  text-decoration: none;
-  color: white;
   font-weight: bold;
+  color: white;
+}
+
+.home-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-menu-hidden {
+  cursor: pointer;
+  position: absolute;
+  left: 95px;
 }

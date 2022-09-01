@@ -45,7 +45,7 @@ const Popup = (props) => {
           <div className='popup-inner'>
               <p>¿Está seguro que desea eliminar
                 {props.type === 'ejercicio' ? 
-                  ` el ejercicio: ${props.trigger.record.fullName}` : 
+                  ` el ejercicio: ${props.trigger.record.fullName}?` : 
                   ` la ${props.type}: ${props.trigger.record.name}?`
                 }
               </p>

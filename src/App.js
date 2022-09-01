@@ -13,6 +13,7 @@ import MySessions from './components/MySessions'
 import MyRoutines from './components/MyRoutines'
 import Customers from './components/Customers'
 import SessionRoutine from './components/SessionRoutine'
+import Profile from './components/Profile'
 
 const API_URL = 'http://127.0.0.1:8000/api'
 
@@ -27,11 +28,13 @@ const App = () => {
           <Routes>
             <Route 
               path='/' 
-              element={
+              element={localStorage.getItem('role') == 'customer' ? (
                 <>
                   <Home API_URL={API_URL} />
                 </>
-              }
+              ) : (
+                <Exercises API_URL={API_URL} />
+              )}
             />
 
             <Route
@@ -43,11 +46,9 @@ const App = () => {
 
             <Route
               path='sessions'
-              element={localStorage.getItem('role') == 'customer' ? (
-                <MySessions API_URL={API_URL} />
-              ) : (
+              element={
                 <Sessions API_URL={API_URL} />
-              )}
+              }
             />
 
             <Route
@@ -66,11 +67,9 @@ const App = () => {
 
             <Route
               path='routines'
-              element={localStorage.getItem('role') == 'customer' ? (
-                <MyRoutines API_URL={API_URL} />
-              ) : (
+              element={
                 <Routines API_URL={API_URL} />
-              )}
+              }
             />
 
             <Route
@@ -84,6 +83,13 @@ const App = () => {
               path='customers'
               element={
                 <Customers API_URL={API_URL} />
+              }
+            />  
+
+            <Route
+              path='profile/:id'
+              element={
+                <Profile API_URL={API_URL} />
               }
             />  
           </Routes>

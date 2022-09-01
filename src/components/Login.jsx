@@ -6,6 +6,7 @@ import '../styles/Login.css'
 const Login = ({API_URL, setUserId}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showError, setShowError] = useState(false)
   const navigate = useNavigate()
 
   const checkUser = async() => {
@@ -24,10 +25,14 @@ const Login = ({API_URL, setUserId}) => {
         setUserId(data)
         navigate('/')
       } else {
-        setTimeout(alert('Correo o contraseña incorrectos'), 1000)
+        setTimeout(setShowError(true), 1000)
       }
     })
   }
+
+  useEffect(() => {
+    console.log(JSON.stringify({email: email}))
+  })
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -37,6 +42,18 @@ const Login = ({API_URL, setUserId}) => {
 
   return (
     <div className='text-center'>
+      <div className='show-error'>
+        {showError ? (
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Correo o contraseña incorrectos.</strong>
+            <button onClick={() => setShowError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       <main className='form-container'>
         <form onSubmit={onSubmit}>
           <div className='login-form'>

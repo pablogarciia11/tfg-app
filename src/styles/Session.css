@@ -1,5 +1,6 @@
 .session-container {
   min-height: 450px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -7,6 +8,7 @@
 }
 
 table {
+  margin-top: 20px;
   border-collapse: collapse;
 }
 
@@ -29,6 +31,11 @@ th, td {
 
   border: 1px solid !important;
   padding: 5px;
+  margin-bottom: 20px;
+}
+
+.info-card {
+  margin-bottom: 20px;
 }
 
 .button-normal {
@@ -40,9 +47,6 @@ th, td {
   font-weight: bold;
 }
 
-.button-normal:hover {
-  background-color: rgb(163, 161, 161);
-}
 
 .session-btn-group {
   display: flex;

@@ -1,5 +1,6 @@
 .routine-container {
   min-height: 280px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -28,6 +29,7 @@ th, td {
 
 .info-card {
   display: flex;
+  margin-top: 20px;
   justify-content: space-between;
   width: 30%;
 }

@@ -30,9 +30,9 @@ p {
     margin-left: 36%;
 }
 
-.close-btn {
-    background-color: rgba(0, 0, 0, 0.2);
-    color: black;
+.close-btn, .confirm-btn {
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .confirm-btn {

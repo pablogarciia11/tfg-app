@@ -131,10 +131,44 @@ const Register = ({API_URL, setUserId}) => {
 
   return (
     <div className='text-center'>
+      <div className='show-errors'>
+        {emailError ? (
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>El correo electrónico ya se encuentra en uso.</strong>
+            <button onClick={() => setEmailError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
+
+        {usernameError ? (
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>El nombre de usuario ya se encuentra en uso.</strong>
+            <button onClick={() => setUsernameError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
+
+        {passwordError ? (
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Las contraseñas no coinciden.</strong>
+            <button onClick={() => setPasswordError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       <main className='re-form-container'>
         <form onSubmit={onSubmit}>
           <div className='register-form'>
-            <h3>Formulario de registro</h3>
+            <h3 style={{textDecoration: 'underline'}}>Cuéntanos sobre tí</h3>
 
             <div className='form-row'>
               <div className='form-info'>
@@ -263,41 +297,6 @@ const Register = ({API_URL, setUserId}) => {
                 ¿Ya tienes cuenta?
                 Iniciar sesión
               </Link>
-            </div>
-
-            <div className='show-errors'>
-              {emailError ? (
-                <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>El correo electrónico ya se encuentra en uso.</strong>
-                  <button onClick={() => setEmailError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              ) : (
-                <></>
-              )}
-
-              {usernameError ? (
-                <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>El nombre de usuario ya se encuentra en uso.</strong>
-                  <button onClick={() => setUsernameError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              ) : (
-                <></>
-              )}
-
-              {passwordError ? (
-                <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                  <strong>Las contraseñas no coinciden.</strong>
-                  <button onClick={() => setPasswordError(false)} type="button" className="close no-button" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              ) : (
-                <></>
-              )}
             </div>
           </div>
         </form>

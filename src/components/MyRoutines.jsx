@@ -32,9 +32,11 @@ const MyRoutines = ({API_URL}) => {
 
   return (
     <div className='my-routines-container'>
-      <h2>Mis rutinas</h2>
+      <div className='my-title'>
+        <h2>Mis rutinas</h2>
+      </div>
 
-      <div>
+      <div className='routines-group'>
         <h3>En curso</h3>
         {ongoing.length > 0 ? 
           (ongoing.map((og) => {
@@ -70,7 +72,7 @@ const MyRoutines = ({API_URL}) => {
         }
       </div>
 
-      <div>
+      <div className='routines-group'>
         <h3>Próximas</h3>
         {upcoming.length > 0 ? 
           (upcoming.map((uc) => {
@@ -106,7 +108,7 @@ const MyRoutines = ({API_URL}) => {
         }
       </div>
 
-      <div>
+      <div className='routines-group'>
         <h3>Sin programar</h3>
         {undated.length > 0 ? 
           (undated.map(ud => {
@@ -143,7 +145,7 @@ const MyRoutines = ({API_URL}) => {
         }
       </div>
 
-      <div>
+      <div className='routines-group'>
         <h3>Anteriores</h3>
         {previous.length > 0 ?
           (previous.map(pv => {

@@ -93,12 +93,12 @@ const ShowCustomers = ({customers, API_URL, actions, petitions, dummy, setDummy}
                   {actions ? (
                     <div className='actions'>
                       {(checkPending(f.id)) ? (
-                        <button onClick={() => cancelPending(f.id)}>
+                        <button className='delete-button' onClick={() => cancelPending(f.id)}>
                           Cancelar <br />
                           solicitud
                         </button>
                       ) : (
-                        <button onClick={() => sendPetition(f.id)}>
+                        <button className='create-button' onClick={() => sendPetition(f.id)}>
                           Enviar <br />
                           solicitud
                         </button>

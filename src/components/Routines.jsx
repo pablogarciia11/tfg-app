@@ -1,10 +1,11 @@
 import { Grid } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import NewRoutine from './NewRoutine'
 import Popup from './Popup'
 
 const Routines = ({API_URL}) => {
+  const navigate = useNavigate()
   const [routines, setRoutines] = useState([])
   const [sessions, setSessions] = useState([])
   const [customers, setCustomers] = useState([])
@@ -156,7 +157,8 @@ const Routines = ({API_URL}) => {
         if(localStorage.getItem('role') == 'trainer') {
           let filtered = data.filter(s => s.createdBy == localStorage.getItem('id'))
           setSessions(filtered)
-        } else {
+        } 
+        if(localStorage.getItem('role') == 'admin') {
           setSessions(data)
         }
       })
@@ -181,87 +183,101 @@ const Routines = ({API_URL}) => {
   }, [API_URL, show])
 
   return (
-    <div className='page-body'>
-      <h1>{show ? 'Nueva rutina' : 'Rutinas'}</h1>
+    <>
+      {localStorage.getItem('role') != 'customer' ? (
+        <div className='page-body'>
+          <h1>{show ? 'Nueva rutina' : 'Rutinas'}</h1>
 
-      <button onClick={() => onShow()}>
-        {show ? 'Cancelar' : 'Crear rutina'}
-      </button>
+          <button onClick={() => onShow()} className={show ? 'cancel-button' : 'create-button'}>
+            {show ? 'Cancelar' : 'Crear rutina'}
+          </button>
 
-      <br />
+          <br />
 
-      {buttonPopup.isLoading ? (
-        <Popup API_URL={API_URL} trigger={buttonPopup} setTrigger={setButtonPopup} type={'rutina'} />
+          {buttonPopup.isLoading ? (
+            <Popup API_URL={API_URL} trigger={buttonPopup} setTrigger={setButtonPopup} type={'rutina'} />
+          ) : (
+            <></>
+          )}
+
+          {show ? (
+            <>
+              <NewRoutine
+                API_URL={API_URL} 
+                onShow={onShow} 
+                routine={edit ? editRoutine : emptyRoutine}
+                setRoutine={edit ? setEditRoutine : setEmptyRoutine}
+                sessions={sessions}
+                weekDays={edit ? editWeekDays : emptyWeekDays}
+                setWeekDays={edit ? setEditWeekDays : setEmptyWeekDays}
+                customers={customers}
+                edit={edit}
+              />
+            </>
+          ) : (
+            <>
+              <div className='search'>
+                <input
+                  className='search-box'
+                  size='31'
+                  placeholder='Busca por nombre o descripción'
+                  onChange={(e) => handleChange(e.target.value)}
+                />
+              </div>
+
+              {routines?.length > 0 ? (
+                <Grid container rowSpacing={3} columnSpacing={0}>
+                    {routines.map(routine => (
+                      <Grid key={routine.id} item xs={4} className='center-label'>
+                        <label key={routine.id} className="adjacent" >
+                          <div className="">
+                            <Link to={`/routine/${routine.id}`} className='link' >
+                              {routine.name}
+                            </Link>
+                            <span className="d-block small">
+                              {routine.description} 
+                            </span>
+                          </div>
+                          <div className='actions'>
+                            <svg 
+                              onClick={() => handleEdit(routine)}
+                              xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="pencil bi bi-pencil-square" viewBox="0 0 16 16">
+                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                              <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                            </svg>
+                            <br />
+                            <svg 
+                              onClick={() => handleDelete(routine)}
+                              xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="trash bi bi-trash3-fill" viewBox="0 0 16 16">
+                              <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                            </svg>
+                          </div>
+                        </label>
+                      </Grid>
+                    ))}
+                </Grid>
+                ) : (
+                  <h1>
+                    No se han encontrado rutinas
+                  </h1>
+                )
+              }
+            </>
+          )}
+
+        </div>
       ) : (
-        <></>
-      )}
-
-      {show ? (
-        <>
-          <NewRoutine
-            API_URL={API_URL} 
-            onShow={onShow} 
-            routine={edit ? editRoutine : emptyRoutine}
-            setRoutine={edit ? setEditRoutine : setEmptyRoutine}
-            sessions={sessions}
-            weekDays={edit ? editWeekDays : emptyWeekDays}
-            setWeekDays={edit ? setEditWeekDays : setEmptyWeekDays}
-            customers={customers}
-            edit={edit}
-          />
-        </>
-      ) : (
-        <>
-          <div className='search'>
-            <input
-              className='search-box'
-              size='31'
-              placeholder='Busca por nombre o descripción'
-              onChange={(e) => handleChange(e.target.value)}
-            />
+        <div className='text-center'>
+          <button onClick={() => navigate(-1)} className='cancel-button space-top'>
+            Volver
+          </button>
+          
+          <div className='space-top'>
+            <h1>Vaya... parece que te has equivocado de ruta</h1>
           </div>
-
-          {routines?.length > 0 ? (
-            <Grid container rowSpacing={3} columnSpacing={0}>
-                {routines.map(routine => (
-                  <Grid key={routine.id} item xs={4} className='center-label'>
-                    <label key={routine.id} className="adjacent" >
-                      <div className="">
-                        <Link to={`/routine/${routine.id}`} className='link' >
-                          {routine.name}
-                        </Link>
-                        <span className="d-block small">
-                          {routine.description} 
-                        </span>
-                      </div>
-                      <div className='actions'>
-                        <svg 
-                          onClick={() => handleEdit(routine)}
-                          xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="pencil bi bi-pencil-square" viewBox="0 0 16 16">
-                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                          <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                        </svg>
-                        <br />
-                        <svg 
-                          onClick={() => handleDelete(routine)}
-                          xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="trash bi bi-trash3-fill" viewBox="0 0 16 16">
-                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-                        </svg>
-                      </div>
-                    </label>
-                  </Grid>
-                ))}
-            </Grid>
-            ) : (
-              <h1>
-                No se han encontrado rutinas
-              </h1>
-            )
-          }
-        </>
+        </div>
       )}
-
-    </div>
+    </>
   )
 }
 

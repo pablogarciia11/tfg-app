@@ -204,6 +204,7 @@ const NewExercise = ({API_URL, onShow, exercise, setExercise, edit}) => {
             <input
               type='submit'
               value='Guardar ejercicio'
+              className='create-button'
             />
           </div>
         </div>

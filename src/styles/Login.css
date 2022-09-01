@@ -21,8 +21,16 @@
 .form-floating {
   position: relative;
   text-align: center;
+  width: 85%;
 }
 
 .login-label {
   margin-left: 12px;
+}
+
+.show-error {
+  position: absolute;
+  top: 150px;
+  width: 24%;
+  margin-left: 38%;
 }

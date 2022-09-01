@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react"
 import '../styles/Home.css'
+import MyRoutines from "./MyRoutines"
+import MySessions from "./MySessions"
 
 const Home = ({API_URL}) => {
   const [petitions, setPetitions] = useState([])
@@ -74,31 +76,39 @@ const Home = ({API_URL}) => {
   return (
     <div>
       {petitions.length > 0 ? (
-        <div className="pending-petitions">
-          <h2>Peticiones pendientes</h2>
-          {petitions.map((petition, i) => {
-            return  <label key={petition.id} className="adjacent" >
-                      <div className="">
-                        {petition.senderName}
-                        <span className="d-block small">
-                          {petition.senderUserName} 
-                        </span>
-                      </div>
-                      <div className='petitions-actions'>
-                        <button className="petition-action reject-petition-button" onClick={() => declinePetition(petition)}>
-                          Rechazar
-                        </button>
+        <div>
+          <div className="pending-petitions">
+            <h2>Peticiones pendientes</h2>
+            {petitions.map((petition, i) => {
+              return  <label key={petition.id} className="adjacent petiton" >
+                        <div className="">
+                          {petition.senderName}
+                          <span className="d-block small">
+                            {petition.senderUserName} 
+                          </span>
+                        </div>
+                        <div className='petitions-actions'>
+                          <button className="petition-action reject-petition-button" onClick={() => declinePetition(petition)}>
+                            Rechazar
+                          </button>
 
-                        <button className="petition-action accept-petition-button" onClick={() => acceptPetition(petition, petition.sender)}>
-                          Aceptar
-                        </button>
-                      </div>
-                    </label>
-          })}
+                          <button className="petition-action accept-petition-button" onClick={() => acceptPetition(petition, petition.sender)}>
+                            Aceptar
+                          </button>
+                        </div>
+                      </label>
+            })}
+          </div> 
         </div>
       ) : (
         <></>
       )}
+
+      <div className="customer-activity">
+        <MySessions API_URL={API_URL} />
+
+        <MyRoutines API_URL={API_URL} />
+      </div>
     </div>
   )
 }

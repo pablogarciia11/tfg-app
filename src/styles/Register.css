@@ -1,6 +1,7 @@
 .re-form-container {
   display: flex;
   justify-content: center;
+  z-index: -1;
 
   position: absolute;
   top: 45%;
@@ -57,7 +58,9 @@
 
 .show-errors {
   position: absolute;
-  top: 0 !important;
+  top: 10px;
+  left: 0;
+  right: 0;
 }
 
 .no-button {

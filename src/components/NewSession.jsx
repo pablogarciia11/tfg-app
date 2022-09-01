@@ -302,9 +302,10 @@ const NewSession = ({API_URL, onShow, session, setSession, exercisesSession, set
           </div>
           
           <div className='submit-button'>
-            <button
+            <input
               type='submit'
-              value='Guardar'
+              value='Guardar sesión'
+              className='create-button'
               />
           </div>          
         </div>

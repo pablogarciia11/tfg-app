@@ -139,6 +139,7 @@ const NewRoutine = ({ API_URL, onShow, routine, setRoutine, sessions, weekDays, 
             day: order,
             date: format,
             completed: false,
+            userId: routine.userId,
             sessionId: day.sessionId,
             routineId: routineId
           }
@@ -174,8 +175,13 @@ const NewRoutine = ({ API_URL, onShow, routine, setRoutine, sessions, weekDays, 
       })
     }
 
-    updateSessionsRoutines(toUpdate)
-    addSessionsRoutines(toCreate)
+    if(toUpdate.length > 0) {
+      updateSessionsRoutines(toUpdate)
+    }
+    
+    if(toCreate.length > 0) {
+      addSessionsRoutines(toCreate)
+    }
   }
 
   const addSessionsRoutines = async (sessionsRoutines) => {
@@ -199,6 +205,7 @@ const NewRoutine = ({ API_URL, onShow, routine, setRoutine, sessions, weekDays, 
           if(e.sessionId == u.sessionId) {
             //handleExercise(u.id, i)
             let es = {...e}
+            es.sessionRoutineId = u.id
             toUpdate.push(es)
           }
         })
@@ -207,7 +214,7 @@ const NewRoutine = ({ API_URL, onShow, routine, setRoutine, sessions, weekDays, 
       toUpdate.forEach(es => {
         es.id = null
         es.sessionId = null
-        es.observations = null
+        es.observations = ''
 
         fetch(`${API_URL}/exercisesSessions`, {
           method: 'POST',
@@ -274,18 +281,38 @@ const NewRoutine = ({ API_URL, onShow, routine, setRoutine, sessions, weekDays, 
     setWeekDays(emptyWeekDays)
     setTimeout(onShow(), 1000)
   }
+
+  const setInitialDate = () => {
+    let pivot = new Date(routine.startDate)
+    let firstDay = pivot.getDay() // 0: Domingo, 1: Lunes...
+    let actualDay = 6
+    if(firstDay > 0) {
+      actualDay = firstDay - 1
+    }
+
+    let secondPivot = new Date()
+    secondPivot.setDate(pivot.getDate() - actualDay)
+
+    routine.startDate = Moment(secondPivot).format('YYYY-MM-DD')
+
+    setFinalDate(secondPivot)
+  }
+
+  const setFinalDate = (firstDate) => {
+    let pivot = firstDate
+
+    let length = 6 + (7 * (routine.length - 1)) // Las rutinas ocupan semanas enteras, empezarán lunes y acabarán domingo
+
+    let secondPivot = new Date()
+    secondPivot.setDate(pivot.getDate() + length)
+
+    routine.endDate = Moment(secondPivot).format('YYYY-MM-DD')
+  }
   
   const onSubmit = (e) => {
     e.preventDefault()
 
-    let lastDay = 0
-    weekDays.map(wd => lastDay = wd.day)
-    let length = lastDay * routine.length
-    let endDate = new Date()
-    endDate.setDate(routine.startDate + length)
-    let format = Moment(endDate).format('YYYY-MM-DD')
-
-    handleRoutine('endDate', format)
+    setInitialDate()
 
     if(edit) {
       updateRoutine()
@@ -380,7 +407,8 @@ const NewRoutine = ({ API_URL, onShow, routine, setRoutine, sessions, weekDays, 
           <div className='submit-button'>
             <input
               type='submit'
-              value='Guardar'
+              value='Guardar rutina'
+              className='create-button'
             />
           </div> 
         </div>

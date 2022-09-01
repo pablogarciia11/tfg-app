@@ -30,9 +30,11 @@ const MySessions = ({API_URL}) => {
 
   return (
     <div className='my-sessions-container'>
-      <h2>Mis sesiones</h2>
+      <div className='my-title'>
+        <h2>Mis sesiones</h2>
+      </div>
 
-      <div>
+      <div className='mysession-group'>
         <h3>Hoy</h3>
         {today.length > 0 ? 
           (today.map((td) => {
@@ -68,7 +70,7 @@ const MySessions = ({API_URL}) => {
         }
       </div>
 
-      <div>
+      <div className='mysession-group'>
         <h3>Próximas</h3>
         {upcoming.length > 0 ? 
           (upcoming.map((uc) => {
@@ -104,7 +106,7 @@ const MySessions = ({API_URL}) => {
         }
       </div>
 
-      <div>
+      <div className='mysession-group'>
         <h3>Sin programar</h3>
         {undated.length > 0 ? 
           (undated.map(ud => {
@@ -141,7 +143,7 @@ const MySessions = ({API_URL}) => {
         }
       </div>
 
-      <div>
+      <div className='mysession-group'>
         <h3>Anteriores</h3>
         {previous.length > 0 ?
           (previous.map(pv => {

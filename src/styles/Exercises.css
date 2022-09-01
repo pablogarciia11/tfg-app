@@ -50,3 +50,13 @@ span {
 .exercise, .trash, .pencil {
     cursor: pointer;
 }
+
+.cancel-button, .create-button {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.create-button {
+    background-color: royalblue;
+    color: white;
+}
